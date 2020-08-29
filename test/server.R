@@ -3,28 +3,36 @@ server <- function(input, output, session) {
     
     #reset
     observeEvent(input$reset, {
-        updateSelectInput(session, 'cyl')
-        updateNumericInput(session, 'disp', value = 100)
-        updateNumericInput(session, 'hp', value = 100)
-        updateNumericInput(session, "drat", value = 3)
-        updateNumericInput(session, "wt", value = 3)
+       updateNumericInput(session, "set1", value = "")
     })
     
-    fit <- lm(mpg ~ ., data = mtcars[,1:6])
-    
-    pred <- eventReactive(input$go, {
-        
-        newdata <- tibble(cyl = input$cyl,
-                          disp = input$disp,
-                          hp = input$hp,
-                          drat = input$drat,
-                          wt = input$wt) %>%
-            mutate_all(as.numeric)
-        
-        pred <- predict(fit, newdata = newdata)
-        pred <- round(pred, 2)
-        paste0(pred)
+    median1 <- eventReactive(input$go, {
+        newdata <-  as.character(input$set1)
+        myvec <- strsplit(newdata,"\n")[[1]]
+        myvec <- as.numeric(myvec)
+        median1 <- median(myvec)
+        paste0(median1)
     })
-    
-    output$pred <- renderText(pred())
+    output$median1 <- renderText(median1())
+
+    mean1 <- eventReactive(input$go, {
+        newdata <-  as.character(input$set1)
+        myvec <- strsplit(newdata,"\n")[[1]]
+        myvec <- as.numeric(myvec)
+        mean1 <- mean(myvec)
+        paste0(mean1)
+    })
+    output$mean1 <- renderText(mean1())
+
+    sd1 <- eventReactive(input$go, {
+        newdata <-  as.character(input$set1)
+        myvec <- strsplit(newdata,"\n")[[1]]
+        myvec <- as.numeric(myvec)
+        sd1 <- sd(myvec)
+        paste0(sd1)
+    })
+    output$sd1 <- renderText(sd1())
+
 }
+    
+

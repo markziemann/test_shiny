@@ -1,26 +1,15 @@
 
-header <- dashboardHeader(title = "Demo Predictor")
+header <- dashboardHeader(title = "Demo Calculator")
 
 sidebar <- dashboardSidebar(
     sidebarMenu(
-        menuItem("Predict!", tabName = "model", icon = icon("bar-chart-o"),
-                 selectInput("cyl",
-                             "Number of Cylinders",
-                             c(4,6,8)),
-                 numericInput("disp",
-                              "Displacement",
-                              100),
-                 numericInput("hp",
-                              "Horsepower",
-                              100),
-                 numericInput("drat",
-                              "Rear axle ratio",
-                              3),
-                 numericInput("wt",
-                              "Weight (1000 lbs)",
-                              3),
-                 div(style="display: inline-block;vertical-align:top; width: 100px;",
-                     actionButton("go", "Predict!")),
+        menuItem("Calculate!", tabName = "model", icon = icon("bar-chart-o"),
+                 textAreaInput("set1",
+                               "Set 1 values",
+                               "",
+                               height = 200),
+                                  div(style="display: inline-block;vertical-align:top; width: 100px;",
+                     actionButton("go", "Calculate!")),
                  div(style="display: inline-block;vertical-align:top; width: 100px;",
                      actionButton("reset", "Clear", style='padding:6px;width:80px'))
         )
@@ -28,19 +17,31 @@ sidebar <- dashboardSidebar(
 )
 
 body <- dashboardBody(
-    h2("The predicted miles per gallon is: "),
-    h3(verbatimTextOutput("pred", placeholder = T)),
-    tags$head(tags$style("#pred{color: black;
+    h2("Set 1  median is: "),
+    h3(verbatimTextOutput("median1", placeholder = T)),
+    h2("Set 1 mean is: "),
+    h3(verbatimTextOutput("mean1", placeholder = T)),
+    h2("Set 1 standard deviation is: "),
+    h3(verbatimTextOutput("sd1", placeholder = T)),
+    tags$head(tags$style("#median1{color: black;
+                                 font-size: 20px;
+                                 font-family: Source Sans Pro
+                                 }")),
+    tags$head(tags$style("#mean1{color: black;
+                                 font-size: 20px;
+                                 font-family: Source Sans Pro
+                                 }")),
+    tags$head(tags$style("#sd1{color: black;
                                  font-size: 20px;
                                  font-family: Source Sans Pro
                                  }")),
     fluidRow(
         infoBox(
-            "What", "is this model for?", icon = icon("line-chart"),
+            "What", "is this app for?", icon = icon("line-chart"),
             width = 4
         ),
         infoBox(
-            "Who", "is this model for?", icon = icon("user-friends"),
+            "Who", "is this app for?", icon = icon("user-friends"),
             width = 4
         ),
         infoBox(
@@ -49,12 +50,12 @@ body <- dashboardBody(
         )),
     fluidRow(
         column(align = "center",
-               "A Medium article demonstration",
+               "Performing basic stats",
                width = 4
         ),
         column(
             align = "center",
-            "Everyone!",
+            "Everyone, biologists especially!",
             width = 4
         ),
         column(
@@ -63,7 +64,6 @@ body <- dashboardBody(
             width = 4
         ))
 )
-
 
 ui <- dashboardPage(header, 
                     sidebar, 
