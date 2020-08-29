@@ -8,14 +8,9 @@ server <- function(input, output, session) {
         updateNumericInput(session, 'hp', value = 100)
         updateNumericInput(session, "drat", value = 3)
         updateNumericInput(session, "wt", value = 3)
-        updateNumericInput(session, "qsec", value = 20)
-        updateSelectInput(session, 'vs')
-        updateSelectInput(session, 'am')
-        updateSelectInput(session, 'gear')
-        updateSelectInput(session, 'carb')
     })
     
-    fit <- lm(mpg ~ ., data = mtcars)
+    fit <- lm(mpg ~ ., data = mtcars[,1:6])
     
     pred <- eventReactive(input$go, {
         
@@ -23,20 +18,7 @@ server <- function(input, output, session) {
                           disp = input$disp,
                           hp = input$hp,
                           drat = input$drat,
-                          wt = input$wt,
-                          qsec = input$qsec,
-                          vs = input$vs,
-                          am = input$am,
-                          gear = input$gear,
-                          carb = input$carb) %>%
-            mutate(vs = case_when(
-                vs == "V-shaped" ~ 0,
-                vs == "Straight" ~ 1
-            ),
-            am = case_when(
-                am == "Automatic" ~ 0,
-                am == "Manual" ~ 1
-            )) %>%
+                          wt = input$wt) %>%
             mutate_all(as.numeric)
         
         pred <- predict(fit, newdata = newdata)
