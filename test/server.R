@@ -86,7 +86,7 @@ server <- function(input, output, session) {
       if (myname2=="") {myname2="set2"}
       units <- as.character(input$units)
       boxplot(myvec1,myvec2,names = c(myname1,myname2),ylab=units)
-      geom_boxplot(outlier.shape=NA)+geom_jitter(width=0.25,height=0)
+      #geom_boxplot(outlier.shape=NA)+geom_jitter(width=0.25,height=0)
       })
 
     output$boxPlot <- renderPlot({
